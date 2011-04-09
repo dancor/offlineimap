@@ -350,7 +350,7 @@ def syncfolder(accountname, remoterepos, remotefolder, localrepos,
 
         # Synchronize remote changes.
         ui.syncingmessages(remoterepos, remotefolder, localrepos, localfolder)
-        remotefolder.syncmessagesto(localfolder, statusfolder)
+        remotefolder.syncmessagesto(localfolder, statusfolder, do_del=False)
         # Synchronize local changes
         ui.syncingmessages(localrepos, localfolder, remoterepos, remotefolder)
         localfolder.syncmessagesto(remotefolder, statusfolder)

@@ -443,7 +443,7 @@ class BaseFolder:
             dstfolder.deletemessagesflags(delflaglist[flag], [flag])
             statusfolder.deletemessagesflags(delflaglist[flag], [flag])
                 
-    def syncmessagesto(self, dstfolder, statusfolder):
+    def syncmessagesto(self, dstfolder, statusfolder, do_del=True):
         """Syncs messages in this folder to the destination dstfolder.
 
         This is the high level entry for syncing messages in one direction.
@@ -476,10 +476,12 @@ class BaseFolder:
         :param dstfolder: Folderinstance to sync the msgs to.
         :param statusfolder: LocalStatus instance to sync against.
         """
-        passes = [('uploading negative UIDs', self.syncmessagesto_neguid),
-                  ('copying messages'       , self.syncmessagesto_copy),
-                  ('deleting messages'      , self.syncmessagesto_delete),
-                  ('syncing flags'          , self.syncmessagesto_flags)]
+        passes =  [('uploading negative UIDs', self.syncmessagesto_neguid),
+                   ('copying messages'       , self.syncmessagesto_copy)]
+        if do_del:
+            passes += \
+                  [('deleting messages'      , self.syncmessagesto_delete)]
+        passes += [('syncing flags'          , self.syncmessagesto_flags)]
 
         for (passdesc, action) in passes:
             try:
